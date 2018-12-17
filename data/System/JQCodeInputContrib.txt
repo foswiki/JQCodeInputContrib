@@ -1,0 +1,77 @@
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1545053278" format="1.1" version="1"}%
+---+!! %TOPIC%
+%FORMFIELD{"Description"}%
+
+%TOC%
+
+---++ Description
+
+This extension implements a code input widget providing a restricted way to request codes from a user,
+such as 6 digits of a two-factor authentication, or bank account information or the like. It converts
+a normal html input element into an appropriate interface that prevents false inputs as good as possible
+while also providing a more usable feedback of what kind of information is being requested from the user.
+
+*You type:*
+
+<verbatim class="tml">
+%JQREQUIRE{"codeinput"}%
+
+<input type="text" class="jqCodeInput" size="6" value="123456" data-separator="-" />
+</verbatim>
+
+<verbatim class="foswikiHidden">
+%STARTSECTION{"example1"}%<input type="text" class="jqCodeInput" size="6" value="123456" data-separator="-" />%ENDSECTION{"example1"}%
+</verbatim>
+
+%JQREQUIRE{"codeinput" warn="off"}%
+*You get:* %IF{"not context CodeInputEnabled" then="(if installed)"}%
+
+%IF{"context CodeInputEnabled"
+  then="$percntINCLUDE{\"%WEB%.%TOPIC%\" section=\"example1\"}$percnt"
+  else="<img src='%ATTACHURLPATH%/screenshot1.jpg' />"
+}%
+
+---++ Syntax
+
+The widget will be initialized for input elements that have got the =jqCodeInput= class assigned to it. It will then process the =&lt;input ...>= element
+by reading its =size=, =value= and HTML5 =data-...= attributes.
+
+| *Params* | *Description* | *Default* |
+| =size="..."= | number of digits to present to the user (mandatory) | |
+| =value="..."= | initial value (note that these should matched the =data-allowed-chars= parameter | |
+| =data-allowed-chars="..."= | string of allowed characters | =0123456789= |
+| =data-separator="..."= | element to be put between the chars of the input | _empty_ |
+| =data-focus-char="..."= | position which to focus; 0 means focus first char; if left undefined the input field won't be focus | _undefined_ |
+
+Another example making use of all parameters would be
+
+<verbatim class="tml">
+<input type="text" class="jqCodeInput" size="3" value="abc" name="code" data-separator="/" data-allowed-chars="abc" data-focus-char="0" />
+</verbatim>
+
+%IF{"context CodeInputEnabled"
+   then="<input type='text' class='jqCodeInput' size='3' value='abc' name='code' data-separator='/' data-allowed-chars='abc' data-focus-char='0' />"
+}%
+
+---++ Installation Instructions
+%$INSTALL_INSTRUCTIONS%
+
+---++ Dependencies
+%$DEPENDENCIES%
+
+---++ Change History
+
+%TABLE{columnwidths="7em" tablewidth="100%"}%
+|  17 Dec 2018 | initial release |
+
+%META:FORM{name="PackageForm"}%
+%META:FIELD{name="Author" title="Author" value="Michae lDaum"}%
+%META:FIELD{name="Version" title="Version" value="%25$VERSION%25"}%
+%META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
+%META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
+%META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2018, MichaelDaum, All Rights Reserved"}%
+%META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
+%META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
+%META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%
+%META:FILEATTACHMENT{name="screenshot1.jpg" attachment="screenshot1.jpg" attr="" comment="" date="1545052887" size="3087" user="ProjectContributor" version="1"}%

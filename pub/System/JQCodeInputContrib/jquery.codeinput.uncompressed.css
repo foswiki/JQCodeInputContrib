@@ -1,0 +1,18 @@
+.jqCodeInputContainer {
+  display:inline-block;
+}
+.jqCodeInput {
+  display:none;
+}
+.jqCodeInputContainer .jqCodeInputChar {
+  width:1.75em !important;
+  margin:0 !important;
+  font-family:monospace;
+  font-weight:bold;
+}
+.jqCodeInputContainer .jqCodeInputSeparator {
+  margin:0 0.5em;
+  vertical-align:middle;
+  font-weight:bold;
+  color:#999;
+}

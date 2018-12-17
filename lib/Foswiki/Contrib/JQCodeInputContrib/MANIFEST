@@ -1,0 +1,14 @@
+!noci
+data/System/JQCodeInputContrib.txt 0644
+lib/Foswiki/Contrib/JQCodeInputContrib/Config.spec 0644
+lib/Foswiki/Contrib/JQCodeInputContrib/Core.pm 0644
+lib/Foswiki/Contrib/JQCodeInputContrib/DEPENDENCIES 0644
+lib/Foswiki/Contrib/JQCodeInputContrib.pm 0644
+pub/System/JQCodeInputContrib/jquery.codeinput.css 0644
+pub/System/JQCodeInputContrib/jquery.codeinput.css.gz 0644
+pub/System/JQCodeInputContrib/jquery.codeinput.js 0644
+pub/System/JQCodeInputContrib/jquery.codeinput.js.gz 0644
+pub/System/JQCodeInputContrib/jquery.codeinput.uncompressed.css 0644
+pub/System/JQCodeInputContrib/jquery.codeinput.uncompressed.js 0644
+pub/System/JQCodeInputContrib/Makefile 0644
+pub/System/JQCodeInputContrib/screenshot1.jpg 0644
