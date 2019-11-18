@@ -1,11 +1,11 @@
 /*
- * jQuery CodeInput 1.0
+ * jQuery CodeInput 1.01
  *
- * Copyright (c) 2018 Michael Daum https://michaeldaumconsulting.com
+ * Copyright (c) 2018-2019 Michael Daum https://michaeldaumconsulting.com
  *
  * Foswiki - The Free and Open Source Wiki, http://foswiki.org/
  *
- * Copyright (C) 2018 Foswiki Contributors. Foswiki Contributors
+ * Copyright (C) 2018-2019 Foswiki Contributors. Foswiki Contributors
  * are listed in the AUTHORS file in the root of this distribution.
  * NOTE: Please extend that file, not this notice.
  *

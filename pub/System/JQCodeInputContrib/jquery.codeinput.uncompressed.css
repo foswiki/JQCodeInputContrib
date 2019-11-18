@@ -16,3 +16,11 @@
   font-weight:bold;
   color:#999;
 }
+.jqCodeInputContainer ::-moz-selection {
+  background-color:transparent;
+  color:inherit;
+}
+.jqCodeInputContainer ::selection {
+  background-color:transparent;
+  color:inherit;
+}

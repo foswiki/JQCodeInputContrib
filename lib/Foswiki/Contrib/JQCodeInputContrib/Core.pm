@@ -1,6 +1,6 @@
 # Plugin for Foswiki - The Free and Open Source Wiki, https://foswiki.org/
 #
-# OpenAuthPlugin is Copyright (C) 2018 Michael Daum http://michaeldaumconsulting.com
+# OpenAuthPlugin is Copyright (C) 2018-2019 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,13 +26,12 @@ sub new {
   my $this = bless(
     $class->SUPER::new(
       name => 'CodeInput',
-      version => '1.0',
+      version => '1.01',
       author => 'Michael Daum',
       homepage => 'https://foswiki.org/Extensions/JQCodeInputContrib',
       puburl => '%PUBURLPATH%/%SYSTEMWEB%/JQCodeInputContrib',
       css => ['jquery.codeinput.css'],
       javascript => ['jquery.codeinput.js'],
-      dependencies => ['livequery'],
     ),
     $class
   );
