@@ -1,7 +1,7 @@
 # ---+ Extensions
 # ---++ JQueryPlugin
 # ---+++ Extra plugins
-# **STRING**
+# **STRING EXPERT**
 $Foswiki::cfg{JQueryPlugin}{Plugins}{CodeInput}{Module} = 'Foswiki::Contrib::JQCodeInputContrib::Core';
 
 # **BOOLEAN**

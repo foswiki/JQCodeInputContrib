@@ -9,12 +9,31 @@
   margin:0 !important;
   font-family:monospace;
   font-weight:bold;
+  text-align:center;
+  line-height:1;
 }
 .jqCodeInputContainer .jqCodeInputSeparator {
   margin:0 0.5em;
   vertical-align:middle;
   font-weight:bold;
   color:#999;
+  width:0;
+  display:inline-block;
+}
+.jqCodeInputGrouped2 .jqCodeInputSeparator,
+.jqCodeInputGrouped3 .jqCodeInputSeparator,
+.jqCodeInputGrouped4 .jqCodeInputSeparator,
+.jqCodeInputGrouped5 .jqCodeInputSeparator,
+.jqCodeInputGrouped6 .jqCodeInputSeparator {
+  visibility:hidden;
+}
+.jqCodeInputGrouped2 .jqCodeInputSeparator:nth-of-type(2n),
+.jqCodeInputGrouped3 .jqCodeInputSeparator:nth-of-type(3n),
+.jqCodeInputGrouped4 .jqCodeInputSeparator:nth-of-type(4n),
+.jqCodeInputGrouped5 .jqCodeInputSeparator:nth-of-type(5n),
+.jqCodeInputGrouped6 .jqCodeInputSeparator:nth-of-type(6n) {
+  margin:0 1.25em !important;
+  visibility:visible;
 }
 .jqCodeInputContainer ::-moz-selection {
   background-color:transparent;

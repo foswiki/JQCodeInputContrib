@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1545053278" format="1.1" version="1"}%
+%META:TOPICINFO{author="micha" comment="reprev" date="1684505720" format="1.1" reprev="3" version="3"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -42,15 +42,34 @@ by reading its =size=, =value= and HTML5 =data-...= attributes.
 | =data-allowed-chars="..."= | string of allowed characters | =0123456789= |
 | =data-separator="..."= | element to be put between the chars of the input | _empty_ |
 | =data-focus-char="..."= | position which to focus; 0 means focus first char; if left undefined the input field won't be focus | _undefined_ |
+| =data-placeholder="..."= | backrgound placeholder for fields that haven't got an input yet, e.g. =&amp;sdot;= | _undefined_ |
+| =data-group="[023456]"= | group input fields by 2,3,4,5 or 6; zero means no grouping | 0 |
+| =data-auto-submit="true/false"= | submit the form the code input is an element of as soon as the last character has been entered | false |
 
-Another example making use of all parameters would be
+---++ Examples
 
 <verbatim class="tml">
-<input type="text" class="jqCodeInput" size="3" value="abc" name="code" data-separator="/" data-allowed-chars="abc" data-focus-char="0" />
+<input type='text' class='jqCodeInput' size='3' value='abc' name='code' data-separator='/' data-allowed-chars='abc' />
 </verbatim>
 
 %IF{"context CodeInputEnabled"
-   then="<input type='text' class='jqCodeInput' size='3' value='abc' name='code' data-separator='/' data-allowed-chars='abc' data-focus-char='0' />"
+   then="<input type='text' class='jqCodeInput' size='3' value='abc' name='code' data-separator='/' data-allowed-chars='abc'  />"
+}%
+
+<verbatim class="tml">
+<input type='text' class='jqCodeInput' size='6' value='abc' data-focus-char='3' data-group='3' data-placeholder='&sdot;' data-separator='/' />
+</verbatim>
+
+%IF{"context CodeInputEnabled"
+   then="<input type='text' class='jqCodeInput' size='6' value='abc' data-focus-char='3' data-group='3' data-placeholder='&sdot;' data-separator='/' />"
+}%
+
+<verbatim class="tml">
+<input type='text' class='jqCodeInput' size='8' data-separator='-' data-allowed-chars='abcdefghijklmnopqrstuvwxyz' data-group='2' />
+</verbatim>
+
+%IF{"context CodeInputEnabled"
+   then="<input type='text' class='jqCodeInput' size='8' data-separator='-' data-allowed-chars='abcdefghijklmnopqrstuvwxyz' data-group='2' />"
 }%
 
 ---++ Installation Instructions
@@ -62,6 +81,8 @@ Another example making use of all parameters would be
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  22 Jan 2024 | improved design and user experience |
+|  18 May 2023 | fixed backspace interaction; added placeholder and group options |
 |  18 Nov 2019 | css fixes |
 |  17 Dec 2018 | initial release |
 
@@ -71,7 +92,7 @@ Another example making use of all parameters would be
 %META:FIELD{name="Release" title="Release" value="%25$RELEASE%25"}%
 %META:FIELD{name="Description" title="Description" value="%25$SHORTDESCRIPTION%25"}%
 %META:FIELD{name="Repository" title="Repository" value="https://github.com/foswiki/%25$ROOTMODULE%25"}%
-%META:FIELD{name="Copyright" title="Copyright" value="2018-2019, MichaelDaum, All Rights Reserved"}%
+%META:FIELD{name="Copyright" title="Copyright" value="2018-2024, Michael Daum, All Rights Reserved"}%
 %META:FIELD{name="License" title="License" value="GPL ([[http://www.gnu.org/copyleft/gpl.html][GNU General Public License]])"}%
 %META:FIELD{name="Home" title="Home" value="http://foswiki.org/Extensions/%25$ROOTMODULE%25"}%
 %META:FIELD{name="Support" title="Support" value="http://foswiki.org/Support/%25$ROOTMODULE%25"}%

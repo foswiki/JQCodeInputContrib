@@ -1,7 +1,7 @@
 /*
- * jQuery CodeInput 1.01
+ * jQuery CodeInput 1.03
  *
- * Copyright (c) 2018-2019 Michael Daum https://michaeldaumconsulting.com
+ * Copyright (c) 2018-2024 Michael Daum https://michaeldaumconsulting.com
  *
  * Foswiki - The Free and Open Source Wiki, http://foswiki.org/
  *
@@ -30,7 +30,10 @@
   var defaults = {
     focusChar: undefined,
     allowedChars: "0123456789",
-    separator: ""
+    separator: "",
+    placeholder: "",
+    group: 0,
+    autoSubmit: false
   };
 
   // The actual plugin constructor
@@ -50,25 +53,31 @@
 
     self.container = $("<div class='jqCodeInputContainer' />").insertAfter(self.elem);
     self.elem.prop("type", "hidden").detach().appendTo(self.container);
+
+    if (self.opts.group) {
+      self.container.addClass("jqCodeInputGrouped"+self.opts.group);
+    }
+
     len = parseInt(self.elem.attr("size"), 10);
     
     val = self.elem.val().split("");
     
     self.chars = [];
     for(i = 0; i < len; i++) {
-      self.chars[i] = $("<input type='text' size='1' class='jqCodeInputChar' />")
+      self.chars[i] = $("<input type='text' size='1' class='jqCodeInputChar' placeholder='"+self.opts.placeholder+"' />")
         .appendTo(self.container)
         .data("index", i)
-        .val(val[i])
+        .val(val[i] === " " ? "" : val[i])
         .prop("autocomplete", "off")
         .on("keydown", function(ev) {
           return self.onKeyDown(ev, this);
         })
-        .on("focus click dblclick", function() {
-          var $this = $(this);
+        .on("click dblclick", function() {
+          var $this = $(this),
+              index = $this.data("index");
           setTimeout(function() {
-            $this.select();
-          }, 0);
+            self.select(index);
+          });
         });
 
       if (i+1 < len) {
@@ -81,22 +90,30 @@
     }
   };
 
+  // 
+
   // updates the value of one char elem
   CodeInput.prototype.setVal = function(val, i) {
     var self = this;
 
+    if (i < 0 || i > self.chars.length) {
+      return;
+    }
     self.chars[i].val(val);
-    self.updateVal();
+    if (self.updateVal() && self.opts.autoSubmit && self.chars.length == i+1) {
+      //console.log("auto-submitting ...");
+      self.elem[0].form.submit();
+    }
   };
 
   // select char elem i
-  CodeInput.prototype.select = function(i) {
+  CodeInput.prototype.select = function(index) {
     var self = this,
-        elem = self.chars[i];
+        elem = self.chars[index];
 
-    console.log("focusing ",self.chars[0]);
+    //console.log("focusing ",index);
     self.container.find(".jqCodeInputChar").removeClass("jqCodeInputCharFocused");
-    elem.focus().addClass("jqCodeInputCharFocused");
+    elem.addClass("jqCodeInputCharFocused").focus();
   };
 
   // unselect all char elems
@@ -108,19 +125,29 @@
 
   // updates the value of elem to the chars in the char elems
   CodeInput.prototype.updateVal = function(val) {
-    var self = this, i, len = self.chars.length;
+    var self = this, 
+        i, ch, 
+        complete = true,
+        len = self.chars.length;
 
     if (typeof(val) === 'undefined') {
       val = "";
       for (i = 0; i < len; i++) {
-        val += self.chars[i].val();
+        ch = self.chars[i].val();
+        if (ch === "") {
+          ch = " ";
+          complete = false;
+        }
+        val += ch;
       }
     }
 
     self.elem.val(val);
 
-    return val;
+    return complete;
   };
+
+  // set the i
 
   // handler of keyboard interaction
   CodeInput.prototype.onKeyDown = function(ev, charElem) {
@@ -136,7 +163,8 @@
     } else {
       switch(ev.keyCode) {
         case 8: // backspace */
-          self.chars[index].val("");
+          self.setVal("", index);
+          self.setVal("", index-1);
           nextIndex = index -1;
           preventDefault = true;
           break
@@ -144,7 +172,7 @@
         case 13: // return
           break;
         case 32: // space
-          self.chars[index].val("");
+          self.setVal("", index);
           nextIndex = index +1;
           preventDefault = true;
           break;
@@ -163,7 +191,7 @@
           nextIndex = index +1;
           break;
         case 46: // del
-          self.chars[index].val("");
+          self.setVal("", index);
           preventDefault = true;
           break;
         default:
@@ -185,9 +213,8 @@
 
     if (preventDefault) {
       ev.preventDefault()
+      return false;
     }
-
-    return !preventDefault;
   };
 
   // A plugin wrapper around the constructor,
@@ -202,8 +229,8 @@
 
   // Enable declarative widget instanziation
   $(function() {
-    $(".jqCodeInput:not(.jqCodeInputInited)").livequery(function() {
-      $(this).addClass("jqCodeInputInited").codeInput();
+    $(".jqCodeInput").livequery(function() {
+      $(this).codeInput();
     });
   });
 
