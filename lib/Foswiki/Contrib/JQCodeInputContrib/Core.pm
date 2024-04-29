@@ -18,6 +18,7 @@ use strict;
 use warnings;
 
 use Foswiki::Plugins::JQueryPlugin::Plugin;
+use Foswiki::Contrib::JQCodeInputContrib();
 our @ISA = qw( Foswiki::Plugins::JQueryPlugin::Plugin );
 
 sub new {
@@ -26,12 +27,12 @@ sub new {
   my $this = bless(
     $class->SUPER::new(
       name => 'CodeInput',
-      version => '1.01',
+      version => $Foswiki::Contrib::JQCodeInputContrib::VERSION,
       author => 'Michael Daum',
       homepage => 'https://foswiki.org/Extensions/JQCodeInputContrib',
       puburl => '%PUBURLPATH%/%SYSTEMWEB%/JQCodeInputContrib',
-      css => ['jquery.codeinput.css'],
-      javascript => ['jquery.codeinput.js'],
+      css => ['codeinput.css'],
+      javascript => ['codeinput.js'],
     ),
     $class
   );

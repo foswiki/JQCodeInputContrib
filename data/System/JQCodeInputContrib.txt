@@ -1,4 +1,4 @@
-%META:TOPICINFO{author="micha" comment="reprev" date="1684505720" format="1.1" reprev="3" version="3"}%
+%META:TOPICINFO{author="ProjectContributor" comment="reprev" date="1684505720" format="1.1" version="1"}%
 ---+!! %TOPIC%
 %FORMFIELD{"Description"}%
 
@@ -81,6 +81,8 @@ by reading its =size=, =value= and HTML5 =data-...= attributes.
 ---++ Change History
 
 %TABLE{columnwidths="7em" tablewidth="100%"}%
+|  19 Apr 2024 | support paste event in input elements |
+|  18 Mar 2024 | improved backspace behavior |
 |  22 Jan 2024 | improved design and user experience |
 |  18 May 2023 | fixed backspace interaction; added placeholder and group options |
 |  18 Nov 2019 | css fixes |

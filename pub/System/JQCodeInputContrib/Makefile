@@ -1,5 +1,5 @@
 FOSWIKI_ROOT?=~/foswiki/core
-TARGET=jquery.codeinput.js jquery.codeinput.css
+TARGET=codeinput.js codeinput.css
 
 -include $(FOSWIKI_ROOT)/pub/System/JQueryPlugin/Makefile.include
 

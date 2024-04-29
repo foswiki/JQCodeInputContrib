@@ -18,7 +18,7 @@ package Foswiki::Contrib::JQCodeInputContrib;
 use strict;
 use warnings;
 
-our $VERSION = '1.03';
+our $VERSION = '1.10';
 our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'Input widget for a series of characters';
 our $LICENSECODE = '%$LICENSECODE%';

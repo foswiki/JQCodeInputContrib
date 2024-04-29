@@ -1,5 +1,5 @@
 /*
- * jQuery CodeInput 1.03
+ * jQuery CodeInput 1.10
  *
  * Copyright (c) 2018-2024 Michael Daum https://michaeldaumconsulting.com
  *
@@ -72,12 +72,21 @@
         .on("keydown", function(ev) {
           return self.onKeyDown(ev, this);
         })
-        .on("click dblclick", function() {
+        .on("click dblclick", function(ev) {
           var $this = $(this),
               index = $this.data("index");
           setTimeout(function() {
             self.select(index);
           });
+        })
+        .on("paste", function(ev) {
+          var index = $(this).data("index"),
+              text = ev.originalEvent.clipboardData.getData('text');
+          index = self.setVal(text, index);
+
+          self.select(index-1);
+          ev.preventDefault();
+          return false;
         });
 
       if (i+1 < len) {
@@ -90,16 +99,29 @@
     }
   };
 
-  // 
+  // set string starting at a position
+  CodeInput.prototype.setVal = function(val, i) {
+    var self = this,
+        arr = Array.from(val);
+
+    arr.forEach(function(c) {
+      if (self.opts.allowedChars.indexOf(c) >= 0 && i < self.chars.length) {
+        self.setChar(c, i++);
+      }
+    });
+
+    return i;
+  };
 
   // updates the value of one char elem
-  CodeInput.prototype.setVal = function(val, i) {
+  CodeInput.prototype.setChar = function(c, i) {
     var self = this;
 
-    if (i < 0 || i > self.chars.length) {
+    if (i < 0 || i >= self.chars.length) {
       return;
     }
-    self.chars[i].val(val);
+
+    self.chars[i].val(c);
     if (self.updateVal() && self.opts.autoSubmit && self.chars.length == i+1) {
       //console.log("auto-submitting ...");
       self.elem[0].form.submit();
@@ -152,46 +174,55 @@
   // handler of keyboard interaction
   CodeInput.prototype.onKeyDown = function(ev, charElem) {
     var self = this, 
-        index = $(charElem).data("index"),
+        $charElem = $(charElem),
+        index = $charElem.data("index"),
         nextIndex,
-        preventDefault = false;
+        preventDefault = false,
+        currentVal = $charElem.val();
+
+    if (ev.ctrlKey && ev.key === 'v') {
+      return;
+    }
 
     if (self.opts.allowedChars.indexOf(ev.key) >= 0) {
-      self.setVal(ev.key, index);
+      self.setChar(ev.key, index);
       nextIndex = index + 1;
       preventDefault = true;
     } else {
-      switch(ev.keyCode) {
-        case 8: // backspace */
-          self.setVal("", index);
-          self.setVal("", index-1);
-          nextIndex = index -1;
+      switch(ev.key) {
+        case "Backspace":
+          if (currentVal === '') {
+            self.setChar("", index -1);
+            nextIndex = index -1;
+          } else {
+            self.setChar("", index);
+          }
           preventDefault = true;
           break
-        case 9: // tab
-        case 13: // return
+        case "Tab": 
+        case "Enter": 
           break;
-        case 32: // space
-          self.setVal("", index);
+        case " ": 
+          self.setChar("", index);
           nextIndex = index +1;
           preventDefault = true;
           break;
-        case 35: // end
+        case "End":
           nextIndex = self.chars.length - 1;
           preventDefault = true;
           break;
-        case 36: // pos1
+        case "Home":
           nextIndex = 0;
           preventDefault = true;
           break;
-        case 37: // left
+        case "ArrowLeft":
           nextIndex = index -1;
           break;
-        case 39: // right
+        case "ArrowRight":
           nextIndex = index +1;
           break;
-        case 46: // del
-          self.setVal("", index);
+        case "Delete":
+          self.setChar("", index);
           preventDefault = true;
           break;
         default:
@@ -209,7 +240,7 @@
       self.select(nextIndex);
     }
 
-    //console.log("ev=",ev,"keyCode=",ev.keyCode, "index=",index,"nextIndex=",nextIndex,"preventDefault=",preventDefault);
+    //console.log("key=",ev.key, "index=",index,"nextIndex=",nextIndex);
 
     if (preventDefault) {
       ev.preventDefault()
