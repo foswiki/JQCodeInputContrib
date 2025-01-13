@@ -1,7 +1,7 @@
 /*
- * jQuery CodeInput 1.10
+ * jQuery CodeInput 2.00
  *
- * Copyright (c) 2018-2024 Michael Daum https://michaeldaumconsulting.com
+ * Copyright (c) 2018-2025 Michael Daum https://michaeldaumconsulting.com
  *
  * Foswiki - The Free and Open Source Wiki, http://foswiki.org/
  *
@@ -65,11 +65,15 @@
     self.chars = [];
     for(i = 0; i < len; i++) {
       self.chars[i] = $("<input type='text' size='1' class='jqCodeInputChar' placeholder='"+self.opts.placeholder+"' />")
+        .attr("inputmode", self.opts.allowedChars === "0123456789" ? "numeric" : "text")
         .appendTo(self.container)
         .data("index", i)
         .val(val[i] === " " ? "" : val[i])
         .prop("autocomplete", "off")
         .on("keydown", function(ev) {
+          return self.onKeyDown(ev, this);
+        })
+        .on("input", function(ev) {
           return self.onKeyDown(ev, this);
         })
         .on("click dblclick", function(ev) {
@@ -89,7 +93,18 @@
           return false;
         });
 
-      if (i+1 < len) {
+      if ('virtualKeyboard' in navigator) {
+        self.chars[i].attr("virtualKeyboardPolicy","manual");
+        navigator.virtualKeyboard.overlaysContent = true;
+
+        self.chars[i].on("focus", function() {
+          navigator.virtualKeyboard.show();
+        }).on("blur", function() {
+          navigator.virtualKeyboard.hide();
+        });
+      }
+
+      if (i+1 < len && self.opts.separator.length) {
         self.container.append("<span class='jqCodeInputSeparator'>"+self.opts.separator+"</span>");
       }
     }
@@ -178,18 +193,19 @@
         index = $charElem.data("index"),
         nextIndex,
         preventDefault = false,
-        currentVal = $charElem.val();
+        currentVal = $charElem.val(),
+        key = ev.originalEvent.data || ev.key;
 
-    if (ev.ctrlKey && ev.key === 'v') {
+    if (key === "Unidentified" || ev.ctrlKey) {
       return;
     }
 
-    if (self.opts.allowedChars.indexOf(ev.key) >= 0) {
-      self.setChar(ev.key, index);
-      nextIndex = index + 1;
+    nextIndex = self.setVal(key, index);
+
+    if (nextIndex > index) {
       preventDefault = true;
     } else {
-      switch(ev.key) {
+      switch(key) {
         case "Backspace":
           if (currentVal === '') {
             self.setChar("", index -1);
@@ -230,19 +246,18 @@
       }
     }
 
-    if (typeof(nextIndex) !== 'undefined') {
-      if (nextIndex >= self.chars.length) {
-        nextIndex = self.chars.length - 1;
-      }
-      if (nextIndex < 0) {
-        nextIndex = 0;
-      }
-      self.select(nextIndex);
+    if (nextIndex >= self.chars.length) {
+      nextIndex = self.chars.length - 1;
     }
+    if (nextIndex < 0) {
+      nextIndex = 0;
+    }
+    self.select(nextIndex);
 
-    //console.log("key=",ev.key, "index=",index,"nextIndex=",nextIndex);
+    //console.log("key=",key, "index=",index,"nextIndex=",nextIndex);
 
     if (preventDefault) {
+      //self.setChar("", index);
       ev.preventDefault()
       return false;
     }

@@ -1,5 +1,8 @@
 .jqCodeInputContainer {
-  display:inline-block;
+  display:inline-flex;
+  flex-wrap:wrap;
+  gap:0.5em;
+  align-items:center;
 }
 .jqCodeInput {
   display:none;
@@ -13,12 +16,12 @@
   line-height:1;
 }
 .jqCodeInputContainer .jqCodeInputSeparator {
-  margin:0 0.5em;
   vertical-align:middle;
   font-weight:bold;
   color:#999;
   width:0;
   display:inline-block;
+  text-align:center;
 }
 .jqCodeInputGrouped2 .jqCodeInputSeparator,
 .jqCodeInputGrouped3 .jqCodeInputSeparator,
@@ -32,7 +35,7 @@
 .jqCodeInputGrouped4 .jqCodeInputSeparator:nth-of-type(4n),
 .jqCodeInputGrouped5 .jqCodeInputSeparator:nth-of-type(5n),
 .jqCodeInputGrouped6 .jqCodeInputSeparator:nth-of-type(6n) {
-  margin:0 1.25em !important;
+  margin:0 0.25em !important;
   visibility:visible;
 }
 .jqCodeInputContainer ::-moz-selection {

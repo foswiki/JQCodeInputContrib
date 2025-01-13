@@ -1,6 +1,6 @@
 # Extension for Foswiki - The Free and Open Source Wiki, http://foswiki.org/
 #
-# JQCodeInputContrib is Copyright (C) 2018-2024 Michael Daum http://michaeldaumconsulting.com
+# JQCodeInputContrib is Copyright (C) 2018-2025 Michael Daum http://michaeldaumconsulting.com
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@ package Foswiki::Contrib::JQCodeInputContrib;
 use strict;
 use warnings;
 
-our $VERSION = '1.10';
+our $VERSION = '2.00';
 our $RELEASE = '%$RELEASE%';
 our $SHORTDESCRIPTION = 'Input widget for a series of characters';
 our $LICENSECODE = '%$LICENSECODE%';
